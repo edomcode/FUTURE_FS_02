@@ -1,9 +1,2 @@
-import React from 'react'
-
-export default function Nav() {
-  return (
-    <div>
-      <h3>Hello</h3>
-    </div>
-  )
-}
+// Nav.jsx is no longer used — layout is handled by Sidebar.jsx and Topbar.jsx
+export default function Nav() { return null }
