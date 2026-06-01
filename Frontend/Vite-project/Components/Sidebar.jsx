@@ -2,54 +2,80 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const navItems = [
-  { to: '/', label: 'Dashboard', icon: <DashIcon /> },
-  { to: '/clients', label: 'Clients', icon: <ClientsIcon /> },
-  { to: '/trainers', label: 'Trainers', icon: <TrainersIcon /> },
-  { to: '/schedule', label: 'Schedule', icon: <ScheduleIcon /> },
-  { to: '/bookings', label: 'Bookings', icon: <BookingsIcon /> },
-  { to: '/payments', label: 'Payments', icon: <PaymentsIcon /> },
+  { to: '/',         label: 'Dashboard', icon: <DashIcon />     },
+  { to: '/leads',    label: 'Leads',     icon: <LeadsIcon />    },
+  { to: '/clients',  label: 'Clients',   icon: <ClientsIcon />  },
+  { to: '/trainers', label: 'Trainers',  icon: <TrainersIcon /> },
+  { to: '/schedule', label: 'Schedule',  icon: <ScheduleIcon /> },
+  { to: '/bookings', label: 'Bookings',  icon: <BookingsIcon /> },
+  { to: '/payments', label: 'Payments',  icon: <PaymentsIcon /> },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose, onQuickLead, onLogout }) {
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <div className="logo-title">⚡PowerGYM</div>
-        <div className="logo-sub">Admin Terminal</div>
-      </div>
+    <>
+      <div className={`sidebar-overlay${isOpen ? ' visible' : ''}`} onClick={onClose} />
 
-      <nav className="sidebar-nav">
-        {navItems.map(item => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.to === '/'}
-            className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
-          >
-            {item.icon}
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
-
-      <div className="sidebar-bottom">
-        <button className="quick-lead-btn">+ Quick Lead</button>
-        <NavLink to="/settings" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}>
-          <SettingsIcon /> Settings
-        </NavLink>
-        <NavLink to="/support" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}>
-          <SupportIcon /> Support
-        </NavLink>
-        <div className="upgrade-box">
-          <p>Upgrade to Pro</p>
-          <button className="btn-upgrade">Upgrade Plan</button>
+      <aside className={`sidebar${isOpen ? ' open' : ''}`}>
+        <div className="sidebar-logo">
+          <div className="logo-title">⚡ FitFlow CRM</div>
+          <div className="logo-sub">Admin Terminal</div>
         </div>
-      </div>
-    </aside>
+
+        <nav className="sidebar-nav">
+          {navItems.map(item => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.to === '/'}
+              className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
+              onClick={onClose}
+            >
+              {item.icon}
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="sidebar-bottom">
+          <button className="quick-lead-btn" onClick={onQuickLead}>+ Quick Lead</button>
+          <NavLink to="/settings" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`} onClick={onClose}>
+            <SettingsIcon /> Settings
+          </NavLink>
+          <NavLink to="/support" className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`} onClick={onClose}>
+            <SupportIcon /> Support
+          </NavLink>
+          {onLogout && (
+            <button className="nav-item" style={{ border:'none', background:'none', color:'var(--red)', width:'100%', textAlign:'left' }}
+              onClick={() => { onLogout(); onClose() }}>
+              <LogoutIcon /> Log Out
+            </button>
+          )}
+        </div>
+      </aside>
+    </>
   )
 }
 
-/* ── Inline SVG icons ── */
+
+function LeadsIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/>
+    </svg>
+  )
+}
+function LogoutIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+  )
+}
 function DashIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
